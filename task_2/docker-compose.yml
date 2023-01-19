@@ -1,0 +1,64 @@
+version: "3.9"
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    expose:
+      - 80
+    volumes:
+    - ./nginx/html:/usr/share/nginx/html
+    - ./nginx/conf.d:/etc/nginx/conf.d
+  exporter:
+    image: nginx/nginx-prometheus-exporter
+    container_name: exporter
+    command:
+      - '-nginx.scrape-uri=http://nginx:80/stub_status'
+    links:
+      - nginx
+    expose:
+      - 9113
+    ports:
+      - '9113:9113'
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - prometheus_data:/prometheus
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    ports:
+      - '9090:9090'
+    links:
+      - exporter
+    expose:
+      - 9090
+  grafana:
+    image: grafana/grafana:6.7.2
+    container_name: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=login
+      - GF_USERS_ALLOW_SIGN_UP=false
+    restart: unless-stopped
+    links:
+      - prometheus
+    ports:
+      - '3000:3000'
+    expose:
+      - 3000
+
