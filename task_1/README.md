@@ -17,9 +17,13 @@ We will utilize AWS CDK to create our cloudformation template and stack, and to 
 
 For the purposes of this exercise, we will also generate a CloudFormation template as output from our CDK app, and included it the examples directory of this project.
 
+## Important project file
+- [Lambda Function](lambda/hello.py)
+- [CDK Resources](lib/fluent-stack.ts)
+
 # Deploying the stack with CDK
 
-## Install dependencies
+## Install CDK
 ```shell
 # Install the CDK toolkit globally: depending on your environment, you may need to install with sudo
 npm install -g aws-cdk
@@ -29,6 +33,11 @@ sudo npm install -g aws-cdk
 ## Bootstrap required CDK resources
 ```shell
 cdk bootstrap aws://ACCOUNT-NUMBER/REGION
+```
+
+## Install Packages
+```shell
+npm install
 ```
 
 ## Deploy the stack
@@ -41,4 +50,7 @@ cdk deploy
 cdk synth
 ```
 
+# Reference Material 
+- [AWS CDK Getting Started](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html)
+- [AWS CDK API Reference](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib-readme.html)
 
