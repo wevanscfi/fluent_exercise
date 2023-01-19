@@ -21,7 +21,7 @@ We will run prometheus configured to scrape the exporters prom endpoint.
 
 We will run grafana with a pre-configured datasource pointed to prometheus, and the public prometheus-nginx-exporter dashboard.
 
-## Important project file
+## Important project files
 - [Docker Compose](docker-compose.yml)
 - [Grafana Nginx Dashboard](grafana/provisioning/dashboards/nginx.json)
 
@@ -53,8 +53,8 @@ docker compose down --volumes
 ```
 
 ## Services
-[Grafana](http://localhost:3000)
-[Nginx Index HTML](http://localhost:8080)
+- [Grafana](http://localhost:3000)
+- [Nginx Index HTML](http://localhost:8080)
 
 ## Limitations 
 This docker compose stack is a very limited POC. It does not implement any form of TLS or authentication. Nor does it attempt to provide a secure network configuration.
