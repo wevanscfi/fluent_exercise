@@ -16,12 +16,12 @@ export class FluentStack extends cdk.Stack {
       handler: 'hello.handler'                // file is "hello", function is "handler"
     });
 
-    // Create an events rule on a 5 minute cron
+    // creates an events rule on a 5 minute cron
     const rule = new events.Rule(this, 'CronTrigger', {
       schedule: events.Schedule.rate(cdk.Duration.minutes(5))
     });
 
-    // Target the HelloHandler lambda function 
+    // targets the HelloHandler lambda function 
     rule.addTarget(new targets.LambdaFunction(fn, {}));
   }
 }
