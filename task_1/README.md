@@ -1,14 +1,44 @@
-# Welcome to your CDK TypeScript project
+# CDK TypeScript project
 
-This is a blank project for CDK development with TypeScript.
+This is a project for meeting the goals of the fluent technical interview task #1.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+## Problem Statement
+> Use Cloudformation and Python to create a scheduled lambda function that creates a cloudwatch log every 5 minutes.
 
-## Useful commands
+## Design
+We need to create a lambda function that logs to stdout/stderr. This output will be captured by a Cloudwatch Logstream along with each invocations request details.
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `cdk deploy`      deploy this stack to your default AWS account/region
-* `cdk diff`        compare deployed stack with current state
-* `cdk synth`       emits the synthesized CloudFormation template
+We need to create an AWS Events Rule that runs on a rate schedule, every 5 minutes.
+
+We need to target the lambda function with our rate rule.
+
+# Solution
+We will utilize AWS CDK to create our cloudformation template and stack, and to manage the deployment of the stack and resources.
+
+For the purposes of this exercise, we will also generate a CloudFormation template as output from our CDK app, and included it the examples directory of this project.
+
+# Deploying the stack with CDK
+
+## Install dependencies
+```shell
+# Install the CDK toolkit globally: depending on your environment, you may need to install with sudo
+npm install -g aws-cdk
+sudo npm install -g aws-cdk
+```
+
+## Bootstrap required CDK resources
+```shell
+cdk bootstrap aws://ACCOUNT-NUMBER/REGION
+```
+
+## Deploy the stack
+```shell
+cdk deploy
+```
+
+## Alternatively Create a CloudFormation template to validate or install manually
+```shell
+cdk synth
+```
+
+
